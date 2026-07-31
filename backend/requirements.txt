@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+python-dotenv
+python-nmap
+sqlalchemy
+pydantic
+aiofiles
+reportlab
+email-validator
