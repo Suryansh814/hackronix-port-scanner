@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import settings
 from app.utils.validator import is_valid_target
+from app.api.router import api_router
 
 app = FastAPI(
     title=settings.APP_NAME,
@@ -17,6 +18,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(api_router)
+
+
 @app.get("/")
 def home():
     return {
@@ -25,11 +29,13 @@ def home():
         "status": "Running"
     }
 
+
 @app.get("/health")
 def health():
     return {
         "status": "Healthy"
     }
+
 
 @app.get("/validate/{target}")
 def validate_target(target: str):
