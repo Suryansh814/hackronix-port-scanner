@@ -1,10 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.core.config import settings
+
 app = FastAPI(
-    title="HACKRONIX Port Scanner",
-    description="Professional Network Port Scanner API",
-    version="1.0.0",
+    title=settings.APP_NAME,
+    version=settings.APP_VERSION,
 )
 
 app.add_middleware(
@@ -17,16 +18,16 @@ app.add_middleware(
 
 
 @app.get("/")
-async def root():
+def home():
     return {
-        "project": "HACKRONIX Port Scanner",
-        "status": "Running",
-        "version": "1.0.0"
+        "project": settings.APP_NAME,
+        "version": settings.APP_VERSION,
+        "status": "Running"
     }
 
 
 @app.get("/health")
-async def health():
+def health():
     return {
-        "status": "healthy"
+        "status": "Healthy"
     }
