@@ -1,6 +1,17 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+
+from app.utils.validator import is_valid_target
+
+@app.get("/validate/{target}")
+def validate_target(target: str):
+    return {
+        "target": target,
+        "valid": is_valid_target(target)
+    }
+
+
 from app.core.config import settings
 
 app = FastAPI(
