@@ -6,12 +6,25 @@ from app.parsers.nmap_parser import NmapParser
 
 class NmapScanner:
 
-    @staticmethod
-    def quick_scan(target: str) -> Dict:
+    SCAN_COMMANDS = {
+        "quick": ["nmap", "-F"],
+        "normal": ["nmap"],
+        "full": ["nmap", "-p-"],
+        "service": ["nmap", "-sV"],
+    }
 
-        command = [
-            "nmap",
-            "-F",
+    @classmethod
+    def run_scan(cls, target: str, scan_type: str) -> Dict:
+
+        command = cls.SCAN_COMMANDS.get(scan_type)
+
+        if command is None:
+            return {
+                "status": "error",
+                "message": f"Unknown scan type: {scan_type}"
+            }
+
+        command = command + [
             "-oX",
             "-",
             target
