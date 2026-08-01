@@ -1,6 +1,7 @@
 import subprocess
-import json
 from typing import Dict
+
+from app.parsers.nmap_parser import NmapParser
 
 
 class NmapScanner:
@@ -22,8 +23,10 @@ class NmapScanner:
             text=True
         )
 
-        return {
-            "returncode": result.returncode,
-            "stdout": result.stdout,
-            "stderr": result.stderr
-        }
+        if result.returncode != 0:
+            return {
+                "status": "error",
+                "message": result.stderr
+            }
+
+        return NmapParser.parse(result.stdout)
