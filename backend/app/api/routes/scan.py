@@ -16,6 +16,9 @@ def scan_target(request: ScanRequest):
             detail="Invalid target"
         )
 
-    result = NmapScanner.quick_scan(request.target)
+    result = NmapScanner.run_scan(
+    target=request.target,
+    scan_type=request.scan_type.value
+)
 
     return result
